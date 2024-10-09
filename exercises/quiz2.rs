@@ -20,7 +20,6 @@
 //
 // No hints this time!
 
-// I AM NOT DONE
 
 pub enum Command {
     Uppercase,
@@ -31,12 +30,18 @@ pub enum Command {
 mod my_module {
     use super::Command;
 
-    // TODO: Complete the function signature!
-    pub fn transformer(input: ???) -> ??? {
-        // TODO: Complete the output declaration!
-        let mut output: ??? = vec![];
-        for (string, command) in input.iter() {
-            // TODO: Complete the function body. You can do it!
+    // Complete the function signature
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+        // Complete the output declaration
+        let mut output: Vec<String> = vec![];
+        for (string, command) in input {
+            let mut result = string.clone();
+            match command {
+                Command::Uppercase => result = result.to_uppercase(),
+                Command::Trim => result = result.trim().to_string(),
+                Command::Append(n) => result = result + &"bar".repeat(n),
+            }
+            output.push(result);
         }
         output
     }
@@ -44,8 +49,8 @@ mod my_module {
 
 #[cfg(test)]
 mod tests {
-    // TODO: What do we need to import to have `transformer` in scope?
-    use ???;
+    // Import the transformer function and Command enum
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]
@@ -60,5 +65,20 @@ mod tests {
         assert_eq!(output[1], "all roads lead to rome!");
         assert_eq!(output[2], "foobar");
         assert_eq!(output[3], "barbarbarbarbarbar");
+    }
+}
+
+fn main() {
+    // You can add some code here to test the transformer function manually.
+    // For example:
+    let input = vec![
+        ("hello".into(), Command::Uppercase),
+        (" all roads lead to rome! ".into(), Command::Trim),
+        ("foo".into(), Command::Append(1)),
+        ("bar".into(), Command::Append(5)),
+    ];
+    let output = my_module::transformer(input);
+    for (i, result) in output.iter().enumerate() {
+        println!("Result {}: {}", i + 1, result);
     }
 }

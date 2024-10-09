@@ -7,12 +7,16 @@
 // Execute `rustlings hint modules2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 mod delicious_snacks {
-    // TODO: Fix these use statements
-    use self::fruits::PEAR as ???
-    use self::veggies::CUCUMBER as ???
+    // Public function to access the PEAR constant
+    pub fn fruit() -> &'static str {
+        fruits::PEAR
+    }
+
+    // Public function to access the CUCUMBER constant
+    pub fn veggie() -> &'static str {
+        veggies::CUCUMBER
+    }
 
     mod fruits {
         pub const PEAR: &'static str = "Pear";
@@ -28,7 +32,7 @@ mod delicious_snacks {
 fn main() {
     println!(
         "favorite snacks: {} and {}",
-        delicious_snacks::fruit,
-        delicious_snacks::veggie
+        delicious_snacks::fruit(),
+        delicious_snacks::veggie()
     );
 }
