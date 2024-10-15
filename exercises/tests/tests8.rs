@@ -9,6 +9,7 @@
 
 // I AM NOT DONE
 
+// tests8.rs
 fn main() {}
 
 #[cfg(test)]
@@ -18,8 +19,9 @@ mod tests {
     #[test]
     fn test_success() {
         #[cfg(feature = "pass")]
-        return;
+        return; // 如果启用了 "pass" 特性，将提前返回
 
         panic!("no cfg set");
     }
 }
+

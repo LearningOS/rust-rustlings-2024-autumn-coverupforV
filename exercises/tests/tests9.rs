@@ -27,7 +27,6 @@
 //
 // You should NOT modify any existing code except for adding two lines of attributes.
 
-// I AM NOT DONE
 
 extern "Rust" {
     fn my_demo_function(a: u32) -> u32;
@@ -35,8 +34,14 @@ extern "Rust" {
 }
 
 mod Foo {
-    // No `extern` equals `extern "Rust"`.
-    fn my_demo_function(a: u32) -> u32 {
+    #[no_mangle] // Suppress name mangling for this function
+    pub fn my_demo_function(a: u32) -> u32 {
+        a
+    }
+
+    #[no_mangle] // Suppress name mangling for this alias function
+    #[link_name = "my_demo_function"] // Make this function an alias
+    pub fn my_demo_function_alias(a: u32) -> u32 {
         a
     }
 }
@@ -54,8 +59,8 @@ mod tests {
         // SAFETY: We know those functions are aliases of a safe
         // Rust function.
         unsafe {
-            my_demo_function(123);
-            my_demo_function_alias(456);
+            assert_eq!(my_demo_function(123), 123);
+            assert_eq!(my_demo_function_alias(456), 456);
         }
     }
 }

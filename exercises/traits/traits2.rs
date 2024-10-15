@@ -8,13 +8,20 @@
 //
 // Execute `rustlings hint traits2` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+
 
 trait AppendBar {
     fn append_bar(self) -> Self;
 }
 
-// TODO: Implement trait `AppendBar` for a vector of strings.
+// Implement the trait `AppendBar` for a vector of strings
+impl AppendBar for Vec<String> {
+    fn append_bar(self) -> Self {
+        let mut new_vec = self; // Take ownership of the vector
+        new_vec.push(String::from("Bar")); // Append "Bar" to the vector
+        new_vec // Return the new vector
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -23,7 +30,7 @@ mod tests {
     #[test]
     fn is_vec_pop_eq_bar() {
         let mut foo = vec![String::from("Foo")].append_bar();
-        assert_eq!(foo.pop().unwrap(), String::from("Bar"));
-        assert_eq!(foo.pop().unwrap(), String::from("Foo"));
+        assert_eq!(foo.pop().unwrap(), String::from("Bar")); // Check if last element is "Bar"
+        assert_eq!(foo.pop().unwrap(), String::from("Foo")); // Check if the previous element is "Foo"
     }
 }

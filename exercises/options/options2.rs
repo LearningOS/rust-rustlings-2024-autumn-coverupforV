@@ -3,7 +3,6 @@
 // Execute `rustlings hint options2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 fn main() {
     // main function for demonstration purposes
@@ -19,10 +18,11 @@ mod tests {
         let target = "rustlings";
         let optional_target = Some(target);
 
-        // if let statement to handle the Option
-        let word = optional_target; // Assign the value to a variable
-        if let Some(word) = word { // Destructure the variable
+        // Use an if let statement to handle the Option
+        if let Some(word) = optional_target {
             assert_eq!(word, target);
+        } else {
+            panic!("optional_target was None!");
         }
     }
 
@@ -42,7 +42,7 @@ mod tests {
         let mut cursor = range as i8;
 
         // while let statement to handle the Option
-        while let Some(integer) = optional_integers.pop() {
+        while let Some(Some(integer)) = optional_integers.pop() {
             assert_eq!(integer, cursor);
             cursor -= 1;
         }

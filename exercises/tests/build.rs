@@ -3,22 +3,17 @@
 //! You should modify this file to make both exercises pass.
 
 fn main() {
-    // In tests7, we should set up an environment variable
-    // called `TEST_FOO`. Print in the standard output to let
-    // Cargo do it.
+    // 在 tests7 中，我们应该设置一个名为 `TEST_FOO` 的环境变量。
+    // 让 Cargo 根据输出设置它。
     let timestamp = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .unwrap()
-        .as_secs(); // What's the use of this timestamp here?
-    let your_command = format!(
-        "Your command here with {}, please checkout exercises/tests/build.rs",
-        timestamp
-    );
-    println!("cargo:{}", your_command);
+        .as_secs();
 
-    // In tests8, we should enable "pass" feature to make the
-    // testcase return early. Fill in the command to tell
-    // Cargo about that.
-    let your_command = "Your command here, please checkout exercises/tests/build.rs";
-    println!("cargo:{}", your_command);
+    // 设置 TEST_FOO 为当前时间戳
+    println!("cargo:TEST_FOO={}", timestamp);
+
+    // 在 tests8 中，我们应该启用 "pass" 特性以使测试用例提前返回。
+    println!("cargo:rustc-cfg=feature=\"pass\"");
 }
+
