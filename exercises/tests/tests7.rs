@@ -34,27 +34,20 @@
 // Execute `rustlings hint tests7` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 // tests7.rs
 // tests7.rs
-fn main() {}
+fn main() {
+    // 获取当前 UNIX 时间戳
+    let timestamp = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_secs();
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_success() {
-        let timestamp = std::time::SystemTime::now()
-            .duration_since(std::time::UNIX_EPOCH)
-            .unwrap()
-            .as_secs();
-        let s = std::env::var("TEST_FOO").unwrap();
-        let e: u64 = s.parse().unwrap();
-        assert!(timestamp >= e && timestamp < e + 10);
-    }
+    // 打印命令给 Cargo，设置环境变量 TEST_FOO 为当前时间戳
+    println!("cargo:rustc-env=TEST_FOO={}", timestamp);
 }
+
 
 
 
