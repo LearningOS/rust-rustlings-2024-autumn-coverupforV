@@ -22,7 +22,7 @@ impl<T> Queue<T> {
 
     pub fn dequeue(&mut self) -> Result<T, &str> {
         if !self.elements.is_empty() {
-            Ok(self.elements.remove(0usize))
+            Ok(self.elements.remove(0))
         } else {
             Err("Queue is empty")
         }
@@ -46,36 +46,52 @@ impl<T> Queue<T> {
 
 impl<T> Default for Queue<T> {
     fn default() -> Queue<T> {
-        Queue {
-            elements: Vec::new(),
-        }
+        Queue::new()
     }
 }
 
-pub struct myStack<T>
-{
-	//TODO
-	q1:Queue<T>,
-	q2:Queue<T>
+pub struct MyStack<T> {
+    q1: Queue<T>, // 主队列，负责存储元素
+    q2: Queue<T>, // 辅助队列，用于帮助pop操作
 }
-impl<T> myStack<T> {
+
+impl<T> MyStack<T> {
     pub fn new() -> Self {
         Self {
-			//TODO
-			q1:Queue::<T>::new(),
-			q2:Queue::<T>::new()
+            q1: Queue::new(),
+            q2: Queue::new(),
         }
     }
+
+    // 将元素推入栈中
     pub fn push(&mut self, elem: T) {
-        //TODO
+        self.q1.enqueue(elem);
     }
+
+    // 从栈中弹出元素
     pub fn pop(&mut self) -> Result<T, &str> {
-        //TODO
-		Err("Stack is empty")
+        if self.q1.is_empty() {
+            return Err("Stack is empty");
+        }
+
+        // 将 q1 中的元素除最后一个以外，全部移到 q2
+        while self.q1.size() > 1 {
+            let front = self.q1.dequeue().unwrap();
+            self.q2.enqueue(front);
+        }
+
+        // 弹出 q1 中的最后一个元素
+        let popped_value = self.q1.dequeue().unwrap();
+
+        // 交换 q1 和 q2，使 q1 始终为存储元素的队列
+        std::mem::swap(&mut self.q1, &mut self.q2);
+
+        Ok(popped_value)
     }
+
+    // 检查栈是否为空
     pub fn is_empty(&self) -> bool {
-		//TODO
-        true
+        self.q1.is_empty()
     }
 }
 

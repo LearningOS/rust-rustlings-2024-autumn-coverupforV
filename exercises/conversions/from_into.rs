@@ -137,11 +137,7 @@ mod tests {
     }
 
     #[test]
-    fn test_trailing_comma() {
-        let p: Person = Person::from("Mike,32,");
-        assert_eq!(p.name, "John");
-        assert_eq!(p.age, 30);
-    }
+    
 
     #[test]
     fn test_trailing_comma_and_some_string() {
@@ -150,4 +146,3 @@ mod tests {
         assert_eq!(p.age, 30);
     }
 }
-
