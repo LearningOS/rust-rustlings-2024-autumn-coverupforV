@@ -24,34 +24,48 @@ impl Default for Person {
     }
 }
 
-// Implement the From trait for Person
+// Your task is to complete this implementation in order for the line `let p =
+// Person::from("Mark,20")` to compile Please note that you'll need to parse the
+// age component into a `usize` with something like `"4".parse::<usize>()`. The
+// outcome of this needs to be handled appropriately.
+//
+// Steps:
+// 1. If the length of the provided string is 0, then return the default of
+//    Person.
+// 2. Split the given string on the commas present in it.
+// 3. Extract the first element from the split operation and use it as the name.
+// 4. If the name is empty, then return the default of Person.
+// 5. Extract the other element from the split operation and parse it into a
+//    `usize` as the age.
+// If while parsing the age, something goes wrong, then return the default of
+// Person Otherwise, then return an instantiated Person object with the results
+
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
-        // Step 1: If the length of the provided string is 0, return the default
-        if s.is_empty() {
-            return Person::default();
+        let mut res = Person::default();
+        if s.len() == 0 {
+            res
+        } else {
+            //try to split s into two str: name str and name age
+            let arr: Vec<&str> = s.rsplit(',').collect();
+            if arr.len() != 2 {
+                res
+            } else {
+                if arr[1].is_empty() {
+                    res
+                } else {
+                    let age = arr[0].parse::<usize>();
+                    match age {
+                        Ok(x) => {
+                            res.name = String::from(arr[1]);
+                            res.age = x;
+                        },
+                        Err(y) => (),
+                    }
+                    res
+                }
+            }
         }
-
-        // Step 2: Split the string on commas
-        let parts: Vec<&str> = s.split(',').collect();
-
-        // Step 3: Extract the first element and check for name
-        let name = parts.get(0).unwrap_or(&"").to_string();
-        if name.is_empty() {
-            return Person::default();
-        }
-
-        // Step 5: Extract the second element and parse it as age
-        let age = match parts.get(1) {
-            Some(age_str) => match age_str.trim().parse::<usize>() {
-                Ok(parsed_age) => parsed_age,
-                Err(_) => return Person::default(),
-            },
-            None => return Person::default(), // No second part, return default
-        };
-
-        // Return the constructed Person
-        Person { name, age }
     }
 }
 
